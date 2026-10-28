@@ -26,6 +26,8 @@ Ouvrir `http://127.0.0.1:3080`. Le terminal affiche les identifiants de démonst
 
 ## Installation pour un pilote interne
 
+Le [guide d’hébergement privé](docs/HEBERGEMENT.md) contient les modèles Docker/Compose et HTTPS, la sauvegarde chiffrée, la restauration sans écrasement et le retrait des comptes. Ces modèles ne déclenchent aucune mise en ligne. La configuration Compose a été validée syntaxiquement ; l’image n’a pas encore été construite et testée sur un hébergeur.
+
 1. Copier le dossier sur un environnement avec Node.js22+, créer un volume local persistant et sauvegardé.
 2. Créer les comptes dans un terminal avec `npm run user`. Le mot de passe est masqué et stocké sous forme scrypt avec sel individuel. `config/users.json` est exclu de Git. Les rôles direction/admin peuvent affecter un avant-vente dans un dossier.
 3. Configurer les variables de `.env.example` dans le shell ou l’hébergeur. Ce fichier n’est pas chargé automatiquement. Aucun secret ne doit être commité.
@@ -41,7 +43,7 @@ $env:PORT='3080'
 node server.cjs
 ```
 
-Ne pas mettre `NODE_ENV=production` sans proxy HTTPS et `PUBLIC_ORIGIN`. Pour changer un rôle ou révoquer un compte : modifier le fichier privé des utilisateurs puis redémarrer. Le redémarrage invalide toutes les sessions. Pas d’administration des comptes par interface dans cette V1.
+Ne pas mettre `NODE_ENV=production` sans proxy HTTPS et `PUBLIC_ORIGIN`. Pour désactiver un compte, utiliser `npm run accounts -- disable adresse-professionnelle`, puis redémarrer. Le redémarrage invalide toutes les sessions. L’outil refuse de désactiver le dernier administrateur actif. Les comptes restent gérés depuis un terminal privé, pas depuis l’interface web.
 
 ## IA : option, pas dépendance du travail commercial
 
@@ -60,6 +62,8 @@ npm test
 ```
 
 Tests HTTP réels sur localhost : refus des anonymes et origines étrangères, isolation de deux commerciaux, affectation technique, faux propriétaires, validation réservée, preuves/dates, budgets, conflits de versions, persistance, audit, déconnexion et configuration production. Aucun appel aux bases clients ou à un fournisseur IA.
+
+Les tests d’exploitation vérifient aussi le chiffrement, une restauration fidèle dans un nouveau dossier, le refus d’écrasement, une mauvaise phrase secrète, une archive altérée et le refus d’un compte désactivé. Ils ne remplacent pas un test de restauration sur l’hébergement choisi.
 
 ## Limites du pilote et suite
 

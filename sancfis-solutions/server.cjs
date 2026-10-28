@@ -38,14 +38,14 @@ function createApp(options={}) {
   const sessions=new Map(),loginLimits=new Map();
   const secure=options.secure??process.env.NODE_ENV==='production';
   const publicOrigin=options.publicOrigin||process.env.PUBLIC_ORIGIN||'';
-  if(secure&&!/^https:\/\/[^/]+$/.test(publicOrigin))throw Error('PUBLIC_ORIGIN HTTPS exact requis en production.');
+  if(secure){let valid=false;try{const parsed=new URL(publicOrigin);valid=parsed.protocol==='https:'&&parsed.origin===publicOrigin&&!parsed.username&&!parsed.password;}catch{}if(!valid)throw Error('PUBLIC_ORIGIN HTTPS exact requis en production.');}
   const canValidate=u=>['presales','admin'].includes(u.role);
   const visible=(u,c)=>['admin','direction'].includes(u.role)||c.ownerId===u.id||(u.role==='presales'&&c.assignedId===u.id);
   function allowedCase(user,id){const c=db.cases.find(c=>c.id===id);if(!c||!visible(user,c))fail(404,'Dossier introuvable.');return c;}
   const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
   function send(res,status,data){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(data));}
   async function body(req){let size=0,chunks=[];for await(const chunk of req){size+=chunk.length;if(size>100000)fail(413,'Requête trop volumineuse.');chunks.push(chunk);}try{return JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}');}catch{fail(400,'JSON invalide.');}}
-  function session(req){const match=/(?:^|;\s*)sancfis_session=([0-9a-f]{64})(?:;|$)/.exec(req.headers.cookie||'');const s=match&&sessions.get(match[1]);if(!s||s.exp<Date.now())fail(401,'Connexion requise.');const user=users.find(u=>u.id===s.userId);if(!user)fail(401,'Compte indisponible.');return {user,token:match[1]};}
+  function session(req){const match=/(?:^|;\s*)sancfis_session=([0-9a-f]{64})(?:;|$)/.exec(req.headers.cookie||'');const s=match&&sessions.get(match[1]);if(!s||s.exp<Date.now())fail(401,'Connexion requise.');const user=users.find(u=>u.id===s.userId);if(!user||user.disabled)fail(401,'Compte indisponible.');return {user,token:match[1]};}
   function assess(input,user,previous={}) {
     const output={};
     for(const control of controls){const x=input?.[control.id]||{},old=previous[control.id]||{};
@@ -102,6 +102,7 @@ function createApp(options={}) {
     res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
     try{
       const url=new URL(req.url,'http://localhost');
+      if(req.method==='GET'&&url.pathname==='/healthz'){send(res,200,{status:'ok'});return;}
       if(!url.pathname.startsWith('/api/')){
         if(req.method!=='GET')fail(405,'Méthode refusée.');
         const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css'};const name=files[url.pathname];if(!name)fail(404,'Page introuvable.');
@@ -123,7 +124,7 @@ function createApp(options={}) {
         const user=users.find(u=>u.email.toLowerCase()===email);
         // Coût de dérivation comparable même pour un compte inconnu.
         const candidate=user||users[0];const valid=passwordMatches(password,candidate);
-        if(!user||!valid)fail(401,'Identifiants incorrects.');
+        if(!user||user.disabled||!valid)fail(401,'Identifiants incorrects.');
         for(const[k,s]of sessions)if(s.exp<now)sessions.delete(k);
         const token=crypto.randomBytes(32).toString('hex');sessions.set(token,{userId:user.id,exp:now+8*3600000});
         res.setHeader('Set-Cookie',`sancfis_session=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800${secure?'; Secure':''}`);
@@ -165,5 +166,8 @@ if(require.main===module){
   }else app=createApp();
   const host=demo?'127.0.0.1':(process.env.HOST||'127.0.0.1');const port=Number(process.env.PORT||3080);
   app.server.listen(port,host,()=>console.log(`SANCFIS Solutions sur http://${host}:${port} — IA ${process.env.AI_ENABLED==='true'&&!demo?'configurée':'désactivée'}`));
+  let stopping=false;
+  function stop(){if(stopping)return;stopping=true;app.server.close(()=>process.exit(0));setTimeout(()=>process.exit(1),15000).unref();}
+  process.on('SIGTERM',stop);process.on('SIGINT',stop);
 }
 module.exports={createApp,passwordHash,validateUsers};

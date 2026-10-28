@@ -1,0 +1,6 @@
+# Exemple pour Caddy installé sur le même hôte que Docker.
+# Remplacer ce domaine et configurer la même origine dans PUBLIC_ORIGIN.
+portail.exemple.invalid {
+    reverse_proxy 127.0.0.1:3080
+    header Strict-Transport-Security "max-age=31536000"
+}

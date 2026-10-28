@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "3080"
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:?Configurer une origine HTTPS exacte avant le lancement}
+      DATA_DIR: /app/data
+      USERS_FILE: /app/config/users.json
+      AI_ENABLED: "false"
+    ports:
+      - "127.0.0.1:3080:3080"
+    volumes:
+      - app_data:/app/data
+      - type: bind
+        source: ./config
+        target: /app/config
+        read_only: true
+        bind:
+          create_host_path: false
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    mem_limit: 256m
+    stop_grace_period: 15s
+volumes:
+  app_data:

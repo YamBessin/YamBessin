@@ -1,0 +1,8 @@
+**
+!package.json
+!server.cjs
+!catalog.cjs
+!public/
+!public/**
+!scripts/
+!scripts/**

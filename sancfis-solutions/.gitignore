@@ -7,3 +7,6 @@ data/
 demo-data/
 *.log
 artifacts/
+backups/
+*.sancfis-backup
+config/*.tmp
