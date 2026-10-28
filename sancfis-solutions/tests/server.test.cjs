@@ -1,0 +1,54 @@
+'use strict';
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const os=require('node:os');
+const path=require('node:path');
+const {createApp,passwordHash}=require('../server.cjs');
+test('Parcours réel HTTP : comptes, droits, preuves et persistance',async t=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'sancfis-test-'));
+  const users=[['a','commercial'],['b','commercial'],['p','presales'],['d','direction'],['z','admin']].map(([id,role])=>({id,role,email:id+'@example.test',name:id,...passwordHash('A-long-test-password-2026')}));
+  const app=createApp({users,dataDir:dir,secure:false,aiEnabled:false});
+  await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+app.server.address().port;
+  t.after(async()=>{await new Promise(r=>app.server.close(r));fs.rmSync(dir,{recursive:true,force:true});});
+  async function request(route,{cookie='',method='GET',body,requestOrigin=origin}={}){
+    const r=await fetch(origin+'/api'+route,{method,headers:{...(cookie?{cookie}:{}),...(body?{'Content-Type':'application/json',Origin:requestOrigin}:{})},body:body?JSON.stringify(body):undefined});
+    return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')};
+  }
+  let a,b,p,d,z,c;
+  await t.test('refuse les lectures et IA anonymes',async()=>{assert.equal((await request('/cases')).status,401);assert.equal((await request('/cases/00000000-0000-0000-0000-000000000000/ai',{method:'POST',body:{confirm:true}})).status,401);});
+  await t.test('refuse une origine étrangère',async()=>{assert.equal((await request('/login',{method:'POST',body:{email:'a@example.test',password:'x'},requestOrigin:'https://intrus.invalid'})).status,403);});
+  await t.test('connexion et cookie HttpOnly',async()=>{for(const id of ['a','b','p','d','z']){const r=await request('/login',{method:'POST',body:{email:id+'@example.test',password:'A-long-test-password-2026'}});assert.equal(r.status,200);assert.match(r.cookie,/HttpOnly/);assert.match(r.cookie,/SameSite=Strict/);({a:v=>a=v,b:v=>b=v,p:v=>p=v,d:v=>d=v,z:v=>z=v}[id])(r.cookie.split(';')[0]);}assert.ok(!JSON.stringify((await request('/me',{cookie:a})).data).includes('hash'));});
+  await t.test('crée un dossier sans accepter un faux propriétaire',async()=>{const r=await request('/cases',{cookie:a,method:'POST',body:{company:'PME fictive',ownerId:'b',segment:'Petite',renewals:[]}});assert.equal(r.status,201);c=r.data.case;assert.equal(c.ownerId,'a');});
+  await t.test('isole deux commerciaux en lecture et écriture',async()=>{assert.deepEqual((await request('/cases',{cookie:b})).data.cases,[]);assert.equal((await request('/cases/'+c.id,{cookie:b})).status,404);assert.equal((await request('/cases/'+c.id,{cookie:b,method:'PUT',body:{...c,company:'intrus'}})).status,404);assert.equal((await request('/cases/'+c.id,{cookie:p})).status,404);});
+  await t.test('interdit l’auto-affectation et la validation du commercial',async()=>{assert.equal((await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,assignedId:'p'}})).status,403);assert.equal((await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,documentStatus:'validated'}})).status,403);});
+  await t.test('la direction affecte un référent ; le référent voit le dossier',async()=>{const r=await request('/cases/'+c.id,{cookie:d,method:'PUT',body:{...c,assignedId:'p'}});assert.equal(r.status,200);c=r.data.case;assert.equal((await request('/cases/'+c.id,{cookie:p})).status,200);});
+  await t.test('exige justification et preuve datée',async()=>{assert.equal((await request('/cases/'+c.id,{cookie:p,method:'PUT',body:{...c,assessment:{assets:{status:'na'}}}})).status,400);assert.equal((await request('/cases/'+c.id,{cookie:p,method:'PUT',body:{...c,assessment:{assets:{status:'implemented',assurance:'verified'}}}})).status,400);});
+  await t.test('refuse les dates invalides et budgets approuvés sans source',async()=>{assert.equal((await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,dueDate:'2026-02-30'}})).status,400);assert.equal((await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,budget:{status:'approved',amount:'100'}}})).status,400);});
+  await t.test('interdit de fabriquer une vérification',async()=>{assert.equal((await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,assessment:{assets:{status:'implemented',assurance:'verified',evidence:'Fausse preuve',reviewDate:'2026-10-28'}}}})).status,403);});
+  await t.test('enregistre une preuve et une échéance confirmées par l’avant-vente',async()=>{const r=await request('/cases/'+c.id,{cookie:p,method:'PUT',body:{...c,assessment:{assets:{status:'implemented',assurance:'verified',evidence:'Inventaire de démonstration',reviewDate:'2026-10-28'}},renewals:[{product:'Produit fictif',endDate:'2026-11-16',dateStatus:'verified',source:'Contrat fictif'}],documentStatus:'validated'}});assert.equal(r.status,200);c=r.data.case;assert.equal(c.assessment.assets.reviewedBy,'p');});
+  await t.test('un commercial ne peut modifier une preuve en conservant vérifié',async()=>{const modified=structuredClone(c);modified.assessment.assets.evidence='Modification';assert.equal((await request('/cases/'+c.id,{cookie:a,method:'PUT',body:modified})).status,403);});
+  await t.test('réinitialise le document validé après modification commerciale',async()=>{const r=await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,nextAction:'Préparer un rendez-vous'}});assert.equal(r.status,200);c=r.data.case;assert.equal(c.documentStatus,'draft');});
+  await t.test('empêche les écrasements concurrents',async()=>{const r=await request('/cases/'+c.id,{cookie:a,method:'PUT',body:{...c,version:c.version-1}});assert.equal(r.status,409);});
+  await t.test('IA désactivée sans requête fournisseur ; audit restreint',async()=>{assert.equal((await request('/cases/'+c.id+'/ai',{cookie:a,method:'POST',body:{confirm:true}})).status,503);assert.equal((await request('/audit',{cookie:a})).status,403);assert.ok((await request('/audit',{cookie:z})).data.audit.length>0);});
+  await t.test('persiste dans une instance rechargée et exclut les secrets des données',()=>{const reload=createApp({users,dataDir:dir,secure:false});assert.equal(reload.store().cases.length,1);assert.equal(reload.store().cases[0].nextAction,'Préparer un rendez-vous');assert.ok(!fs.readFileSync(path.join(dir,'store.json'),'utf8').includes('A-long-test-password'));});
+  await t.test('déconnexion invalide la session',async()=>{assert.equal((await request('/logout',{cookie:a,method:'POST',body:{}})).status,200);assert.equal((await request('/cases',{cookie:a})).status,401);});
+});
+test('La production exige une origine HTTPS',()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'sancfis-prod-'));try{const users=[{id:'a',name:'A',email:'a@example.test',role:'admin',...passwordHash('test-password')}];assert.throws(()=>createApp({users,dataDir:dir,secure:true,publicOrigin:'http://example.test'}),/HTTPS/);}finally{fs.rmSync(dir,{recursive:true,force:true});}});
+test('IA simulée : résumé non nominatif, modèle serveur et plafond persistant',async t=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'sancfis-ai-'));
+  const originalFetch=global.fetch,previous={key:process.env.MISTRAL_API_KEY,model:process.env.MISTRAL_MODEL,limit:process.env.AI_DAILY_MAX_CALLS};
+  process.env.MISTRAL_API_KEY='dummy-test-key';process.env.MISTRAL_MODEL='test-model-server';process.env.AI_DAILY_MAX_CALLS='1';
+  const app=createApp({users:[{id:'a',name:'A',email:'a@example.test',role:'commercial',...passwordHash('  password-with-spaces  ')}],dataDir:dir,secure:false,aiEnabled:true});
+  await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+app.server.address().port;let captured;
+  global.fetch=async(url,options)=>{if(url==='https://api.mistral.ai/v1/chat/completions'){captured=JSON.parse(options.body);return new Response(JSON.stringify({choices:[{message:{content:'Brouillon simulé'}}]}),{status:200,headers:{'Content-Type':'application/json'}});}return originalFetch(url,options);};
+  t.after(async()=>{global.fetch=originalFetch;for(const[k,v]of Object.entries({MISTRAL_API_KEY:previous.key,MISTRAL_MODEL:previous.model,AI_DAILY_MAX_CALLS:previous.limit})){if(v===undefined)delete process.env[k];else process.env[k]=v;}await new Promise(r=>app.server.close(r));fs.rmSync(dir,{recursive:true,force:true});});
+  const login=await fetch(origin+'/api/login',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({email:'a@example.test',password:'  password-with-spaces  '})});assert.equal(login.status,200);
+  const headers={Origin:origin,'Content-Type':'application/json',cookie:login.headers.get('set-cookie').split(';')[0]};
+  const create=await fetch(origin+'/api/cases',{method:'POST',headers,body:JSON.stringify({company:'CONFIDENTIAL_COMPANY',businessNeed:'PRIVATE_FREE_TEXT',budget:{amount:'123456789',status:'declared'},renewals:[]})});const c=(await create.json()).case;
+  const first=await fetch(origin+'/api/cases/'+c.id+'/ai',{method:'POST',headers,body:JSON.stringify({confirm:true,model:'untrusted-model',prompt:'UNTRUSTED_PROMPT'})});assert.equal(first.status,200);assert.equal((await first.json()).status,'draft');
+  assert.equal(captured.model,'test-model-server');assert.equal(captured.max_tokens,700);
+  for(const secret of ['CONFIDENTIAL_COMPANY','PRIVATE_FREE_TEXT','123456789','UNTRUSTED_PROMPT'])assert.ok(!JSON.stringify(captured).includes(secret));
+  const second=await fetch(origin+'/api/cases/'+c.id+'/ai',{method:'POST',headers,body:JSON.stringify({confirm:true})});assert.equal(second.status,429);
+  const reload=createApp({users:[{id:'a',name:'A',email:'a@example.test',role:'commercial',...passwordHash('test-password')}],dataDir:dir,secure:false});assert.equal(Object.values(reload.store().aiUsage)[0],1);
+});
