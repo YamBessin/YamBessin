@@ -1,0 +1,8 @@
+# Configuration et données privées de SANCFIS Solutions
+sancfis-solutions/.env
+sancfis-solutions/.env.*
+!sancfis-solutions/.env.example
+sancfis-solutions/config/users.json
+sancfis-solutions/data/
+sancfis-solutions/demo-data/
+sancfis-solutions/artifacts/
