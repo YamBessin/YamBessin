@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+config/users.json
+data/
+demo-data/
+*.log
+artifacts/
+backups/
+*.sancfis-backup
+config/*.tmp

@@ -1,0 +1,67 @@
+'use strict';
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const os=require('node:os');
+const path=require('node:path');
+const {createApp,passwordHash}=require('../server.cjs');
+const catalog=require('../questionnaire.json');
+const rules=require('../public/questionnaire.js');
+const answer=(id,index)=>({state:'answered',optionId:id+'-o'+index});
+test('Parité et règles : 53 questions, 11 domaines, 16 branches explicites',()=>{
+  const questions=catalog.domains.flatMap(d=>d.questions);
+  assert.equal(catalog.domains.length,11);assert.equal(questions.length,53);assert.equal(questions.filter(q=>q.condition).length,16);
+  assert.equal(rules.evaluate(catalog.domains,{}).activeIds.length,37);
+  const a={'INF-2':answer('INF-2',0),'INF-2.1':answer('INF-2.1',0)};
+  assert.ok(rules.evaluate(catalog.domains,a).activeIds.includes('INF-2.1'));
+  a['INF-2']=answer('INF-2',3);
+  assert.ok(!rules.evaluate(catalog.domains,a).activeIds.includes('INF-2.1'));
+  assert.equal(rules.coverage(catalog.domains,a).answered,1);
+  a['INF-2']={state:'unknown'};assert.equal(rules.coverage(catalog.domains,a).answered,0);
+  assert.ok(!rules.evaluate(catalog.domains,{'PHY-2':answer('PHY-2',0)}).activeIds.includes('PHY-2.1'));
+  assert.ok(rules.evaluate(catalog.domains,{'PHY-2':answer('PHY-2',3)}).activeIds.includes('PHY-2.1'));
+  assert.ok(rules.evaluate(catalog.domains,{'CNX-3':answer('CNX-3',3)}).activeIds.includes('CNX-4'));
+  assert.ok(!rules.evaluate(catalog.domains,{'CNX-3':answer('CNX-3',0)}).activeIds.includes('CNX-4'));
+  assert.equal(questions.find(q=>q.id==='CNX-3').options[0].score,3);
+  assert.equal(questions.find(q=>q.id==='ID-3.1').scorePolicy,'context_only');
+  assert.throws(()=>rules.validate([{questions:[{id:'A',options:[{id:'a'}],condition:{dependsOn:'B',optionIds:['b']}},{id:'B',options:[{id:'b'}],condition:{dependsOn:'A',optionIds:['a']}}]}]),/Cycle/);
+});
+test('HTTP : branches recalculées, historique, technique, invitation et révocation',async t=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'sancfis-diagnostic-'));
+  const users=[['a','commercial'],['b','commercial'],['p','presales'],['t','technical'],['z','admin']].map(([id,role])=>({id,role,name:id,email:id+'@example.test',...passwordHash('long-test-password-2026')}));
+  const app=createApp({users,dataDir:dir,secure:false,aiEnabled:false});await new Promise(r=>app.server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+app.server.address().port;
+  t.after(async()=>{await new Promise(r=>app.server.close(r));if(path.dirname(path.resolve(dir))!==path.resolve(os.tmpdir())||!path.basename(dir).startsWith('sancfis-diagnostic-'))throw Error('Nettoyage hors cible refusé.');fs.rmSync(dir,{recursive:true,force:true});});
+  async function req(route,{cookie,token,body,method=body?'POST':'GET'}={}){const response=await fetch(origin+'/api'+route,{method,headers:{...(cookie?{cookie}:{}),...(token?{Authorization:'Bearer '+token}:{}),...(body?{'Content-Type':'application/json',Origin:origin}:{})},body:body?JSON.stringify(body):undefined});return {status:response.status,data:await response.json(),cookie:response.headers.get('set-cookie')?.split(';')[0]};}
+  const cookies={};for(const id of ['a','b','p','t','z']){const r=await req('/login',{body:{email:id+'@example.test',password:'long-test-password-2026'}});assert.equal(r.status,200);cookies[id]=r.cookie;}
+  let c=(await req('/cases',{cookie:cookies.a,body:{company:'Société fictive',budget:{amount:'SECRET_BUDGET'},businessNeed:'INTERNAL_NEED',renewals:[],diagnostic:{answers:{'INF-2':answer('INF-2',0),'INF-2.1':answer('INF-2.1',1)}}}})).data.case;
+  assert.ok(c.diagnostic.activeQuestionIds.includes('INF-2.1'));
+  const save=async(body,cookie=cookies.a)=>req('/cases/'+c.id,{cookie,method:'PUT',body:{...c,...body}});
+  let r=await save({diagnostic:{answers:{'INF-2':answer('INF-2',3)}}});assert.equal(r.status,200);c=r.data.case;
+  assert.ok(!c.diagnostic.activeQuestionIds.includes('INF-2.1'));assert.ok(c.diagnostic.answers['INF-2.1']);assert.ok(c.diagnostic.history.some(h=>h.reason==='Branche devenue inactive'));assert.equal(c.diagnostic.coverage.answered,1);
+  assert.equal((await save({diagnostic:{answers:{'INF-2.1':answer('INF-2.1',3)}}})).status,400);
+  assert.equal((await save({diagnostic:{answers:{'FAKE':answer('FAKE',0)}}})).status,400);
+  assert.equal((await save({diagnostic:{answers:{'INF-1':{state:'na'}}}})).status,400);
+  const verified={...answer('INF-1',3),assurance:'verified',evidence:'PRIVATE_EVIDENCE',reviewDate:'2026-10-29'};
+  assert.equal((await save({diagnostic:{answers:{'INF-1':verified}}})).status,403);
+  assert.equal((await req('/cases/'+c.id,{cookie:cookies.t})).status,404);
+  r=await save({assignedId:'p',technicalId:'t'},cookies.z);assert.equal(r.status,200);c=r.data.case;
+  r=await save({diagnostic:{answers:{'INF-1':verified}}},cookies.t);assert.equal(r.status,200);c=r.data.case;assert.equal(c.diagnostic.answers['INF-1'].reviewedBy,'t');
+  assert.equal((await save({documentStatus:'validated'},cookies.t)).status,403);
+  assert.equal((await req('/cases/'+c.id+'/invitations',{cookie:cookies.b,body:{questionIds:['ID-3']}})).status,404);
+  assert.equal((await req('/cases/'+c.id+'/invitations',{cookie:cookies.t,body:{questionIds:['ID-3']}})).status,403);
+  r=await req('/cases/'+c.id+'/invitations',{cookie:cookies.a,body:{questionIds:['INF-1','ID-3.1'],days:2}});assert.equal(r.status,201);const invite=r.data;
+  assert.ok(invite.questionIds.includes('ID-3'));assert.ok(!JSON.stringify(app.store()).includes(invite.token));
+  assert.equal((await req('/invitation')).status,401);
+  let guest=await req('/invitation',{token:invite.token});assert.equal(guest.status,200);
+  for(const privateValue of ['SECRET_BUDGET','PRIVATE_EVIDENCE','INTERNAL_NEED','ownerId','history','renewals'])assert.ok(!JSON.stringify(guest.data).includes(privateValue));
+  assert.equal((await req('/invitation',{token:invite.token,body:{version:c.version,answers:{'INF-2':answer('INF-2',0)}}})).status,403);
+  assert.equal((await req('/invitation',{token:invite.token,body:{version:c.version,answers:{'INF-1':answer('INF-1',0)}}})).status,409);
+  assert.equal((await req('/invitation',{token:invite.token,body:{version:c.version,answers:{'ID-3':{...answer('ID-3',0),assurance:'verified'}}}})).status,403);
+  r=await req('/invitation',{token:invite.token,body:{version:c.version,answers:{'ID-3':answer('ID-3',0),'ID-3.1':answer('ID-3.1',3)}}});assert.equal(r.status,200);assert.ok(r.data.answers['ID-3.1']);
+  c=(await req('/cases/'+c.id,{cookie:cookies.p})).data.case;assert.equal(c.diagnostic.answers['ID-3.1'].assurance,'declared');assert.equal(c.documentStatus,'draft');
+  assert.equal((await req('/invitation',{token:invite.token,body:{version:c.version-1,answers:{}}})).status,409);
+  const realNow=Date.now;try{Date.now=()=>realNow()+8*86400000;assert.equal((await req('/invitation',{token:invite.token})).status,410);}finally{Date.now=realNow;}
+  assert.equal((await req('/cases/'+c.id+'/invitations/'+invite.id+'/revoke',{cookie:cookies.a,body:{}})).status,200);assert.equal((await req('/invitation',{token:invite.token})).status,410);
+  const reload=createApp({users,dataDir:dir,secure:false});assert.equal(reload.store().cases[0].diagnostic.answers['ID-3'].optionId,'ID-3-o0');
+  const listing=await req('/cases/'+c.id+'/invitations',{cookie:cookies.a});assert.ok(!JSON.stringify(listing.data).includes('hash'));
+});

@@ -1,0 +1,15 @@
+{
+  "name": "sancfis-solutions-pme",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pilote interne SANCFIS : portefeuille PME, qualification, preuves, renouvellements et formation",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server.cjs",
+    "demo": "node server.cjs --demo",
+    "user": "node scripts/create-user.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "backup": "node scripts/backup.cjs",
+    "accounts": "node scripts/manage-user.cjs"
+  }
+}
