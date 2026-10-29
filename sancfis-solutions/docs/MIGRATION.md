@@ -4,7 +4,7 @@
 
 Les archives mêlent diagnostic public payant, administration de clés et données accessibles sur des services Progress Things. La V1 fournit un parcours interne indépendant qui conserve les intentions utiles (qualification, restitution, accompagnement commercial, IA optionnelle) sans recopier les connexions et secrets historiques.
 
-- Diagnostic : remplacé par une collecte PME courte, sans score de conformité trompeur.
+- Diagnostic : la collecte courte initiale est conservée comme historique ; depuis le 29 octobre, les 53 questions des archives sont réintégrées avec conditions, preuves et états distincts. Voir REPRISE-20261029.md.
 - Clés/formules : remplacées par comptes et rôles. Les anciennes clés ProgiCheck ne sont pas migrées ni garanties utilisables.
 - Base : stockage local isolé pour le pilote. Aucun export Firebase complet n’était fourni, donc aucun client réel n’a été importé.
 - Assistant : route authentifiée liée à un dossier autorisé, résumé limité, confirmation utilisateur, plafond persistant. L’IA est inactive à l’installation.

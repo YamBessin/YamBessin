@@ -1,0 +1,1999 @@
+{
+  "version": "2026-10-29.1",
+  "origin": "Quatre archives fournies : 53 questions originales, 11 domaines ; aucune donnée client.",
+  "scoringNotice": "Pas de score global : méthode de maturité à valider. Les scores historiques sont des valeurs de référence, pas une conformité.",
+  "domains": [
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure IT",
+      "desc": "Vos ordinateurs, serveurs et réseau sont le socle de votre activité. Cette section évalue leur état, leur fiabilité et leur gestion au quotidien.",
+      "pdfName": "Infrastructure",
+      "icon": "",
+      "questions": [
+        {
+          "id": "INF-1",
+          "hint": "Un équipement vieillissant tombe plus souvent en panne et ralentit votre activité.",
+          "text": "Dans quel état général se trouvent vos ordinateurs, serveurs et autres équipements informatiques ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Très anciens, souvent en panne, non renouvelés",
+              "score": 0,
+              "id": "INF-1-o0"
+            },
+            {
+              "text": "Plutôt anciens, avec quelques pannes régulières",
+              "score": 1,
+              "id": "INF-1-o1"
+            },
+            {
+              "text": "Relativement récents, avec des pannes occasionnelles",
+              "score": 2,
+              "id": "INF-1-o2"
+            },
+            {
+              "text": "Récents, adaptés aux besoins, renouvelés selon un planning",
+              "score": 3,
+              "id": "INF-1-o3"
+            }
+          ],
+          "originalId": "INF-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "INF-2",
+          "hint": "Savoir exactement ce que vous possédez est la première étape pour le protéger.",
+          "text": "Disposez-vous d’un inventaire à jour de vos équipements (PC, serveurs, imprimantes, routeurs, etc.) ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Aucun inventaire",
+              "score": 0,
+              "id": "INF-2-o0"
+            },
+            {
+              "text": "Inventaire approximatif, rarement mis à jour",
+              "score": 1,
+              "id": "INF-2-o1"
+            },
+            {
+              "text": "Inventaire mis à jour de temps en temps",
+              "score": 2,
+              "id": "INF-2-o2"
+            },
+            {
+              "text": "Inventaire complet, à jour, avec un responsable identifié",
+              "score": 3,
+              "id": "INF-2-o3"
+            }
+          ],
+          "originalId": "INF-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "INF-2.1",
+          "hint": "Sans responsable clairement identifié, rien n'est géré de façon fiable.",
+          "text": "Qui est aujourd’hui responsable du suivi et de la mise à jour de votre parc informatique ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Personne en particulier",
+              "score": 0,
+              "id": "INF-2.1-o0"
+            },
+            {
+              "text": "Un employé non IT qui s’y connaît un peu",
+              "score": 1,
+              "id": "INF-2.1-o1"
+            },
+            {
+              "text": "Un prestataire externe",
+              "score": 2,
+              "id": "INF-2.1-o2"
+            },
+            {
+              "text": "Un service ou référent IT clairement désigné",
+              "score": 3,
+              "id": "INF-2.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "INF-2",
+            "optionIds": [
+              "INF-2-o0",
+              "INF-2-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à INF-2."
+          },
+          "originalId": "INF-2.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "INF-2",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "INF-3",
+          "hint": "Les mises à jour corrigent des failles de sécurité. Un système non mis à jour est une porte ouverte aux pirates.",
+          "text": "Comment gérez-vous les mises à jour (Windows, macOS, etc.) sur vos postes et serveurs ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Chacun se débrouille, aucune règle",
+              "score": 0,
+              "id": "INF-3-o0"
+            },
+            {
+              "text": "Mises à jour faites de temps en temps, sans suivi",
+              "score": 1,
+              "id": "INF-3-o1"
+            },
+            {
+              "text": "Mises à jour régulières, gérées par quelqu’un",
+              "score": 2,
+              "id": "INF-3-o2"
+            },
+            {
+              "text": "Gestion centralisée, planifiée et suivie",
+              "score": 3,
+              "id": "INF-3-o3"
+            }
+          ],
+          "originalId": "INF-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "INF-3.1",
+          "hint": "Ces incidents sont souvent évitables avec une gestion simple des mises à jour.",
+          "text": "Avez-vous déjà rencontré des problèmes liés à l’absence de mises à jour (pannes, virus, lenteurs, etc.) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Oui, plusieurs fois avec un fort impact",
+              "score": 0,
+              "id": "INF-3.1-o0"
+            },
+            {
+              "text": "Oui, parfois, impact limité",
+              "score": 1,
+              "id": "INF-3.1-o1"
+            },
+            {
+              "text": "Rarement",
+              "score": 2,
+              "id": "INF-3.1-o2"
+            },
+            {
+              "text": "Pas à ma connaissance",
+              "score": 3,
+              "id": "INF-3.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "INF-3",
+            "optionIds": [
+              "INF-3-o0",
+              "INF-3-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à INF-3."
+          },
+          "originalId": "INF-3.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "INF-3",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "INF-4",
+          "hint": "Un réseau mal organisé permet à n'importe qui d'accéder à tout — y compris vos données sensibles.",
+          "text": "Comment votre réseau interne (câblé, WiFi) est-il structuré ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Un simple modem/routeur, tout est dessus, aucune séparation",
+              "score": 0,
+              "id": "INF-4-o0"
+            },
+            {
+              "text": "Réseau basique avec un switch, sans réelle segmentation",
+              "score": 1,
+              "id": "INF-4-o1"
+            },
+            {
+              "text": "Réseau structuré par zones, mais peu documenté",
+              "score": 2,
+              "id": "INF-4-o2"
+            },
+            {
+              "text": "Réseau segmenté, documenté, avec règles claires",
+              "score": 3,
+              "id": "INF-4-o3"
+            }
+          ],
+          "originalId": "INF-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "cybersecurity",
+      "name": "Cybersécurité",
+      "desc": "Les cyberattaques touchent toutes les entreprises, quelle que soit leur taille. Cette section mesure votre niveau de protection contre les virus, ransomwares et intrusions.",
+      "pdfName": "Cybersecurite",
+      "icon": "",
+      "questions": [
+        {
+          "id": "CYB-1",
+          "hint": "Un ordinateur sans protection, c'est comme laisser votre bureau sans serrure.",
+          "text": "Comment protégez-vous actuellement vos ordinateurs et serveurs contre les virus, ransomwares et autres malwares ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Aucune protection ou antivirus expiré",
+              "score": 0,
+              "id": "CYB-1-o0"
+            },
+            {
+              "text": "Antivirus gratuit installé poste par poste",
+              "score": 1,
+              "id": "CYB-1-o1"
+            },
+            {
+              "text": "Antivirus payant géré de manière standard",
+              "score": 2,
+              "id": "CYB-1-o2"
+            },
+            {
+              "text": "Solution avancée (EDR/XDR) gérée par un expert ou prestataire",
+              "score": 3,
+              "id": "CYB-1-o3"
+            }
+          ],
+          "originalId": "CYB-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "CYB-1.1",
+          "hint": "Comprendre vos freins nous aide à vous proposer des solutions adaptées à votre réalité.",
+          "text": "Quel est aujourd’hui votre principal frein pour mettre en place une protection plus efficace (antivirus pro, EDR, etc.) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Budget",
+              "score": 0,
+              "id": "CYB-1.1-o0"
+            },
+            {
+              "text": "Manque de temps",
+              "score": 1,
+              "id": "CYB-1.1-o1"
+            },
+            {
+              "text": "Manque d’information ou de conseil",
+              "score": 2,
+              "id": "CYB-1.1-o2"
+            },
+            {
+              "text": "Nous avons déjà un projet en cours",
+              "score": 3,
+              "id": "CYB-1.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "CYB-1",
+            "optionIds": [
+              "CYB-1-o0",
+              "CYB-1-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à CYB-1."
+          },
+          "originalId": "CYB-1.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "CYB-1",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "CYB-2",
+          "hint": "Une alerte ignorée peut laisser un virus s'installer pendant des semaines sans que personne ne le sache.",
+          "text": "Qui surveille les alertes de sécurité (virus détectés, fichiers bloqués, etc.) ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Personne, nous ne regardons jamais",
+              "score": 0,
+              "id": "CYB-2-o0"
+            },
+            {
+              "text": "Occasionnellement, si quelqu’un remarque un message",
+              "score": 1,
+              "id": "CYB-2-o1"
+            },
+            {
+              "text": "Une personne identifiée consulte régulièrement",
+              "score": 2,
+              "id": "CYB-2-o2"
+            },
+            {
+              "text": "Un service/prestataire supervise les alertes de façon structurée",
+              "score": 3,
+              "id": "CYB-2-o3"
+            }
+          ],
+          "originalId": "CYB-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "CYB-3",
+          "hint": "Les applications non mises à jour sont parmi les principales portes d'entrée utilisées par les pirates.",
+          "text": "Comment gérez-vous les mises à jour de sécurité de vos logiciels (navigateurs, PDF, applications métier, etc.) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Nous ne les gérons pas, chacun clique quand il veut",
+              "score": 0,
+              "id": "CYB-3-o0"
+            },
+            {
+              "text": "Mises à jour faites de temps en temps, sans procédure",
+              "score": 1,
+              "id": "CYB-3-o1"
+            },
+            {
+              "text": "Mises à jour régulières avec quelques règles internes",
+              "score": 2,
+              "id": "CYB-3-o2"
+            },
+            {
+              "text": "Gestion centralisée ou procédure claire et suivie",
+              "score": 3,
+              "id": "CYB-3-o3"
+            }
+          ],
+          "originalId": "CYB-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "CYB-4",
+          "hint": "Un incident passé non traité est souvent le signe d'une vulnérabilité encore présente aujourd'hui.",
+          "text": "Avez-vous déjà subi un incident de sécurité (virus, ransomware, compte compromis…) dans les 24 derniers mois ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Oui, avec un impact fort (arrêt d’activité, perte de données…)",
+              "score": 0,
+              "id": "CYB-4-o0"
+            },
+            {
+              "text": "Oui, mais impact limité",
+              "score": 1,
+              "id": "CYB-4-o1"
+            },
+            {
+              "text": "Pas à ma connaissance",
+              "score": 2,
+              "id": "CYB-4-o2"
+            },
+            {
+              "text": "Non, et nous avons des mesures de prévention robustes",
+              "score": 3,
+              "id": "CYB-4-o3"
+            }
+          ],
+          "originalId": "CYB-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only"
+        },
+        {
+          "id": "CYB-4.1",
+          "hint": "Après un incident, renforcer sa sécurité est essentiel pour ne pas revivre la même situation.",
+          "text": "Après cet incident, avez-vous formellement revu et renforcé vos mesures de sécurité ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Non, rien n’a vraiment changé",
+              "score": 0,
+              "id": "CYB-4.1-o0"
+            },
+            {
+              "text": "Quelques mesures ponctuelles",
+              "score": 1,
+              "id": "CYB-4.1-o1"
+            },
+            {
+              "text": "Plusieurs améliorations mises en place",
+              "score": 2,
+              "id": "CYB-4.1-o2"
+            },
+            {
+              "text": "Revue complète avec un expert/prestataire",
+              "score": 3,
+              "id": "CYB-4.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "CYB-4",
+            "optionIds": [
+              "CYB-4-o0",
+              "CYB-4-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à CYB-4."
+          },
+          "originalId": "CYB-4.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "CYB-4",
+            "maxScore": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "physical_security",
+      "name": "Sécurité Physique",
+      "desc": "Un équipement volé ou endommagé peut paralyser votre activité. Cette section évalue la protection de vos locaux et de vos installations informatiques.",
+      "pdfName": "Securite Physique",
+      "icon": "",
+      "questions": [
+        {
+          "id": "PHY-1",
+          "hint": "Un accès physique non contrôlé à vos équipements peut être aussi dangereux qu'un piratage à distance.",
+          "text": "Les locaux où se trouvent vos équipements informatiques (PC, serveurs, box Internet) sont-ils protégés contre les intrusions ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Portes souvent ouvertes, pas de contrôle réel",
+              "score": 0,
+              "id": "PHY-1-o0"
+            },
+            {
+              "text": "Portes fermées à clé mais clés largement partagées",
+              "score": 1,
+              "id": "PHY-1-o1"
+            },
+            {
+              "text": "Accès limité à certaines personnes",
+              "score": 2,
+              "id": "PHY-1-o2"
+            },
+            {
+              "text": "Contrôle d’accès structuré (badges, registre, etc.)",
+              "score": 3,
+              "id": "PHY-1-o3"
+            }
+          ],
+          "originalId": "PHY-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "PHY-2",
+          "hint": "La vidéosurveillance et les alarmes dissuadent les intrusions et permettent d'agir rapidement en cas d'incident.",
+          "text": "Disposez-vous d’un système de vidéosurveillance ou d’alarme pour vos locaux ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Aucun système",
+              "score": 0,
+              "id": "PHY-2-o0"
+            },
+            {
+              "text": "Système existant mais non maintenu / non surveillé",
+              "score": 1,
+              "id": "PHY-2-o1"
+            },
+            {
+              "text": "Système fonctionnel mais peu exploité",
+              "score": 2,
+              "id": "PHY-2-o2"
+            },
+            {
+              "text": "Système fonctionnel, surveillé, avec procédure en cas d’alerte",
+              "score": 3,
+              "id": "PHY-2-o3"
+            }
+          ],
+          "originalId": "PHY-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "PHY-2.1",
+          "hint": "Un système non testé peut donner une fausse impression de sécurité.",
+          "text": "Vérifiez-vous régulièrement le bon fonctionnement de votre système d’alarme ou de vidéosurveillance ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Jamais",
+              "score": 0,
+              "id": "PHY-2.1-o0"
+            },
+            {
+              "text": "Rarement",
+              "score": 1,
+              "id": "PHY-2.1-o1"
+            },
+            {
+              "text": "Une à deux fois par an",
+              "score": 2,
+              "id": "PHY-2.1-o2"
+            },
+            {
+              "text": "Régulièrement selon un planning",
+              "score": 3,
+              "id": "PHY-2.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "PHY-2",
+            "optionIds": [
+              "PHY-2-o1",
+              "PHY-2-o2",
+              "PHY-2-o3"
+            ],
+            "reason": "Approfondissement selon la réponse à PHY-2."
+          },
+          "originalId": "PHY-2.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "PHY-2",
+            "maxScore": 2
+          }
+        },
+        {
+          "id": "PHY-3",
+          "hint": "Un serveur posé dans un couloir ou bureau ouvert est exposé au vol ou à la manipulation non autorisée.",
+          "text": "Les équipements sensibles (serveur, NAS, réseau) sont-ils installés dans un endroit sécurisé ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Dans un bureau accessible à tout le monde",
+              "score": 0,
+              "id": "PHY-3-o0"
+            },
+            {
+              "text": "Dans un bureau partagé généralement fermé",
+              "score": 1,
+              "id": "PHY-3-o1"
+            },
+            {
+              "text": "Dans une pièce fermée réservée à certains",
+              "score": 2,
+              "id": "PHY-3-o2"
+            },
+            {
+              "text": "Dans une salle dédiée, sécurisée et clairement identifiée",
+              "score": 3,
+              "id": "PHY-3-o3"
+            }
+          ],
+          "originalId": "PHY-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "continuity",
+      "name": "Continuité",
+      "desc": "Une panne, une coupure de courant ou une catastrophe naturelle peut bloquer toute votre activité. Cette section évalue votre capacité à continuer à fonctionner malgré les imprévus.",
+      "pdfName": "Continuite",
+      "icon": "",
+      "questions": [
+        {
+          "id": "CON-1",
+          "hint": "En Afrique, les coupures de courant sont fréquentes. Sans protection, chaque coupure risque d'endommager vos équipements et de perdre des données.",
+          "text": "Êtes-vous protégés contre les coupures de courant impactant vos équipements critiques (serveur, réseau, Internet) ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Aucune protection (tout s’éteint en cas de coupure)",
+              "score": 0,
+              "id": "CON-1-o0"
+            },
+            {
+              "text": "Quelques onduleurs isolés sans réelle stratégie",
+              "score": 1,
+              "id": "CON-1-o1"
+            },
+            {
+              "text": "Onduleurs sur les équipements critiques identifiés",
+              "score": 2,
+              "id": "CON-1-o2"
+            },
+            {
+              "text": "Stratégie claire (onduleurs + éventuellement groupe électrogène)",
+              "score": 3,
+              "id": "CON-1-o3"
+            }
+          ],
+          "originalId": "CON-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "CON-2",
+          "hint": "Chaque heure d'arrêt coûte de l'argent et peut impacter la confiance de vos clients.",
+          "text": "En cas de panne majeure, en combien de temps pouvez-vous raisonnablement reprendre votre activité informatique ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Plusieurs jours",
+              "score": 0,
+              "id": "CON-2-o0"
+            },
+            {
+              "text": "1 à 2 jours",
+              "score": 1,
+              "id": "CON-2-o1"
+            },
+            {
+              "text": "Quelques heures",
+              "score": 2,
+              "id": "CON-2-o2"
+            },
+            {
+              "text": "Moins d’une heure pour les systèmes essentiels",
+              "score": 3,
+              "id": "CON-2-o3"
+            }
+          ],
+          "originalId": "CON-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only"
+        },
+        {
+          "id": "CON-3",
+          "hint": "Avoir un plan écrit, c'est savoir quoi faire sans paniquer quand tout s'arrête.",
+          "text": "Disposez-vous d’un plan documenté pour gérer une interruption majeure de vos systèmes (PCA, procédures, fiches réflexes) ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Non, aucun plan",
+              "score": 0,
+              "id": "CON-3-o0"
+            },
+            {
+              "text": "Quelques idées mais rien d’écrit",
+              "score": 1,
+              "id": "CON-3-o1"
+            },
+            {
+              "text": "Un document existe mais peu testé",
+              "score": 2,
+              "id": "CON-3-o2"
+            },
+            {
+              "text": "Plan formalisé, testé et mis à jour",
+              "score": 3,
+              "id": "CON-3-o3"
+            }
+          ],
+          "originalId": "CON-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "CON-3.1",
+          "hint": "Un plan non testé peut se révéler inefficace au pire moment. Mieux vaut le découvrir lors d'un exercice.",
+          "text": "Avez-vous déjà réalisé au moins un exercice ou test de simulation d’incident (perte de serveur, coupure Internet, etc.) ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Jamais",
+              "score": 0,
+              "id": "CON-3.1-o0"
+            },
+            {
+              "text": "Une fois, il y a longtemps",
+              "score": 1,
+              "id": "CON-3.1-o1"
+            },
+            {
+              "text": "Parfois, sans compte-rendu formel",
+              "score": 2,
+              "id": "CON-3.1-o2"
+            },
+            {
+              "text": "Régulièrement avec retour d’expérience",
+              "score": 3,
+              "id": "CON-3.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "CON-3",
+            "optionIds": [
+              "CON-3-o1",
+              "CON-3-o2",
+              "CON-3-o3"
+            ],
+            "reason": "Approfondissement selon la réponse à CON-3."
+          },
+          "originalId": "CON-3.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "CON-3",
+            "maxScore": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "data_recovery",
+      "name": "Données",
+      "desc": "Vos données sont l'actif le plus précieux de votre entreprise. Cette section évalue comment vous les sauvegardez, les protégez et les récupérez en cas de problème.",
+      "pdfName": "Donnees",
+      "icon": "",
+      "questions": [
+        {
+          "id": "DAT-1",
+          "hint": "Des données éparpillées sont difficiles à sauvegarder, à protéger et à retrouver en cas de problème.",
+          "text": "Où sont principalement stockées vos données d’entreprise (documents, fichiers clients, etc.) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Dispersées sur les postes des employés ou des clés USB",
+              "score": 0,
+              "id": "DAT-1-o0"
+            },
+            {
+              "text": "Sur un partage réseau ou un NAS non structuré",
+              "score": 1,
+              "id": "DAT-1-o1"
+            },
+            {
+              "text": "Sur un serveur/NAS organisé avec quelques règles",
+              "score": 2,
+              "id": "DAT-1-o2"
+            },
+            {
+              "text": "Sur des systèmes centralisés (serveur, ERP, cloud) avec règles claires",
+              "score": 3,
+              "id": "DAT-1-o3"
+            }
+          ],
+          "originalId": "DAT-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "DAT-2",
+          "hint": "Sans sauvegarde, une panne, un ransomware ou un vol suffit à perdre toutes vos données définitivement.",
+          "text": "Quelles sauvegardes de vos données mettez-vous en œuvre ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Aucune sauvegarde régulière",
+              "score": 0,
+              "id": "DAT-2-o0"
+            },
+            {
+              "text": "Sauvegarde manuelle occasionnelle (clé USB, disque externe…)",
+              "score": 1,
+              "id": "DAT-2-o1"
+            },
+            {
+              "text": "Sauvegarde automatique locale (NAS, serveur, etc.)",
+              "score": 2,
+              "id": "DAT-2-o2"
+            },
+            {
+              "text": "Stratégie 3-2-1 ou équivalent (copie locale + externe + cloud)",
+              "score": 3,
+              "id": "DAT-2-o3"
+            }
+          ],
+          "originalId": "DAT-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "DAT-2.1",
+          "hint": "Cette question mesure concrètement si vos sauvegardes actuelles seraient suffisantes en situation réelle.",
+          "text": "Si vos données principales étaient perdues demain, auriez-vous une copie exploitable pour continuer votre activité ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Non, ce serait très critique",
+              "score": 0,
+              "id": "DAT-2.1-o0"
+            },
+            {
+              "text": "Une partie, mais avec une forte perte de données",
+              "score": 1,
+              "id": "DAT-2.1-o1"
+            },
+            {
+              "text": "La plupart des données essentielles",
+              "score": 2,
+              "id": "DAT-2.1-o2"
+            },
+            {
+              "text": "Oui, nous serions rapidement opérationnels",
+              "score": 3,
+              "id": "DAT-2.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "DAT-2",
+            "optionIds": [
+              "DAT-2-o0",
+              "DAT-2-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à DAT-2."
+          },
+          "originalId": "DAT-2.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "DAT-2",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "DAT-3",
+          "hint": "Une sauvegarde non testée peut se révéler corrompue ou incomplète — exactement quand vous en avez le plus besoin.",
+          "text": "Testez-vous la restauration de vos sauvegardes (pour vérifier qu’on peut vraiment récupérer les données) ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Jamais",
+              "score": 0,
+              "id": "DAT-3-o0"
+            },
+            {
+              "text": "Très rarement",
+              "score": 1,
+              "id": "DAT-3-o1"
+            },
+            {
+              "text": "De temps en temps sur quelques fichiers",
+              "score": 2,
+              "id": "DAT-3-o2"
+            },
+            {
+              "text": "Régulièrement, selon un planning défini",
+              "score": 3,
+              "id": "DAT-3-o3"
+            }
+          ],
+          "originalId": "DAT-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "DAT-3.1",
+          "hint": "Identifier le frein vous aide à trouver une solution simple et adaptée.",
+          "text": "Qu’est-ce qui vous empêche aujourd’hui de tester régulièrement la restauration de vos sauvegardes ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Manque de temps",
+              "score": 0,
+              "id": "DAT-3.1-o0"
+            },
+            {
+              "text": "Manque de compétences",
+              "score": 1,
+              "id": "DAT-3.1-o1"
+            },
+            {
+              "text": "Manque de procédures ou d’outils",
+              "score": 2,
+              "id": "DAT-3.1-o2"
+            },
+            {
+              "text": "Ce n’est pas considéré comme prioritaire",
+              "score": 3,
+              "id": "DAT-3.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "DAT-3",
+            "optionIds": [
+              "DAT-3-o0",
+              "DAT-3-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à DAT-3."
+          },
+          "originalId": "DAT-3.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "DAT-3",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "DAT-4",
+          "hint": "Des données sensibles non chiffrées peuvent être lues par n'importe qui qui y accède — employé, prestataire ou pirate.",
+          "text": "Certaines de vos données sensibles (RH, finances, données clients) sont-elles chiffrées (protégées) au repos ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Non, pas du tout",
+              "score": 0,
+              "id": "DAT-4-o0"
+            },
+            {
+              "text": "Uniquement sur quelques postes ou disques",
+              "score": 1,
+              "id": "DAT-4-o1"
+            },
+            {
+              "text": "Sur les principaux supports sensibles",
+              "score": 2,
+              "id": "DAT-4-o2"
+            },
+            {
+              "text": "Chiffrement systématique des données sensibles selon une politique",
+              "score": 3,
+              "id": "DAT-4-o3"
+            }
+          ],
+          "originalId": "DAT-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "collaboration",
+      "name": "Collaboration",
+      "desc": "La façon dont vos équipes communiquent et partagent l'information impacte directement votre productivité. Cette section évalue vos outils de travail collaboratif.",
+      "pdfName": "Collaboration",
+      "icon": "",
+      "questions": [
+        {
+          "id": "COL-1",
+          "hint": "Utiliser une adresse Gmail personnelle pour les affaires professionnelles, c'est mélanger vie privée et entreprise — avec des risques des deux côtés.",
+          "text": "Quel type de messagerie utilisez-vous principalement pour vos échanges professionnels ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Adresses personnelles (Gmail, Yahoo, etc.)",
+              "score": 0,
+              "id": "COL-1-o0"
+            },
+            {
+              "text": "Adresses professionnelles chez un fournisseur générique",
+              "score": 1,
+              "id": "COL-1-o1"
+            },
+            {
+              "text": "Messagerie professionnelle intégrée (Exchange, M365, Google Workspace…)",
+              "score": 2,
+              "id": "COL-1-o2"
+            },
+            {
+              "text": "Messagerie pro avec sécurité configurée (MFA, filtres avancés, etc.)",
+              "score": 3,
+              "id": "COL-1-o3"
+            }
+          ],
+          "originalId": "COL-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "COL-2",
+          "hint": "Le partage par clé USB ou messagerie non sécurisée est l'une des principales sources de propagation de virus en entreprise.",
+          "text": "Comment partagez-vous habituellement les fichiers entre collègues ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Clés USB ou messageries personnelles",
+              "score": 0,
+              "id": "COL-2-o0"
+            },
+            {
+              "text": "Pièces jointes par email principalement",
+              "score": 1,
+              "id": "COL-2-o1"
+            },
+            {
+              "text": "Services cloud (Drive, OneDrive, etc.) sans règles précises",
+              "score": 2,
+              "id": "COL-2-o2"
+            },
+            {
+              "text": "Plateformes de partage structurées avec droits d’accès gérés",
+              "score": 3,
+              "id": "COL-2-o3"
+            }
+          ],
+          "originalId": "COL-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "COL-2.1",
+          "hint": "La prise de conscience est la première étape. Même sans changer tout de suite, cela aide à mesurer le risque réel.",
+          "text": "Avez-vous conscience des risques liés au partage de fichiers par USB ou messageries non sécurisées ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Non, pas vraiment",
+              "score": 0,
+              "id": "COL-2.1-o0"
+            },
+            {
+              "text": "Oui, mais nous n’avons pas d’alternative",
+              "score": 1,
+              "id": "COL-2.1-o1"
+            },
+            {
+              "text": "Oui, nous avons commencé à mettre en place des solutions plus sûres",
+              "score": 2,
+              "id": "COL-2.1-o2"
+            },
+            {
+              "text": "Oui, et nous avons une politique claire pour limiter ces pratiques",
+              "score": 3,
+              "id": "COL-2.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "COL-2",
+            "optionIds": [
+              "COL-2-o0",
+              "COL-2-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à COL-2."
+          },
+          "originalId": "COL-2.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "COL-2",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "COL-3",
+          "hint": "Un outil de communication centralisé réduit les erreurs, les oublis et les risques liés aux échanges informels.",
+          "text": "Disposez-vous d’un outil de communication d’équipe (Teams, WhatsApp Business, Slack, etc.) utilisé de manière régulière ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Non, seulement téléphone et SMS",
+              "score": 0,
+              "id": "COL-3-o0"
+            },
+            {
+              "text": "Oui, mais usage ponctuel",
+              "score": 1,
+              "id": "COL-3-o1"
+            },
+            {
+              "text": "Oui, utilisé régulièrement par une partie de l’équipe",
+              "score": 2,
+              "id": "COL-3-o2"
+            },
+            {
+              "text": "Oui, c’est l’outil central de communication interne",
+              "score": 3,
+              "id": "COL-3-o3"
+            }
+          ],
+          "originalId": "COL-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "digital_presence",
+      "name": "Présence Digitale",
+      "desc": "Votre site web, vos emails et vos outils en ligne sont souvent le premier contact avec vos clients. Cette section évalue votre maturité digitale et votre visibilité en ligne.",
+      "pdfName": "Digital",
+      "icon": "",
+      "questions": [
+        {
+          "id": "DIG-1",
+          "hint": "Votre présence en ligne reflète votre professionnalisme et influence la confiance de vos clients.",
+          "text": "Disposez-vous d’un site web pour votre entreprise ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Non",
+              "score": 0,
+              "id": "DIG-1-o0"
+            },
+            {
+              "text": "Seulement une page ou un profil sur un réseau social",
+              "score": 1,
+              "id": "DIG-1-o1"
+            },
+            {
+              "text": "Un site vitrine simple, peu mis à jour",
+              "score": 2,
+              "id": "DIG-1-o2"
+            },
+            {
+              "text": "Un site professionnel régulièrement mis à jour",
+              "score": 3,
+              "id": "DIG-1-o3"
+            }
+          ],
+          "originalId": "DIG-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "DIG-1.1",
+          "hint": "Un site sans HTTPS ou sans mentions légales peut exposer votre entreprise à des risques légaux et de réputation.",
+          "text": "Avez-vous déjà envisagé de moderniser ou sécuriser davantage votre présence en ligne (HTTPS, mentions légales, politique de confidentialité) ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Non",
+              "score": 0,
+              "id": "DIG-1.1-o0"
+            },
+            {
+              "text": "Oui, mais ce n’est pas prioritaire",
+              "score": 1,
+              "id": "DIG-1.1-o1"
+            },
+            {
+              "text": "Oui, un projet est en réflexion",
+              "score": 2,
+              "id": "DIG-1.1-o2"
+            },
+            {
+              "text": "Oui, des actions sont déjà en cours",
+              "score": 3,
+              "id": "DIG-1.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "DIG-1",
+            "optionIds": [
+              "DIG-1-o0",
+              "DIG-1-o1",
+              "DIG-1-o2"
+            ],
+            "reason": "Approfondissement selon la réponse à DIG-1."
+          },
+          "originalId": "DIG-1.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "DIG-1",
+            "maxScore": 2
+          }
+        },
+        {
+          "id": "DIG-2",
+          "hint": "Un client qui ne peut pas vous joindre facilement va simplement chercher un concurrent.",
+          "text": "Vos canaux digitaux (site, réseaux sociaux, WhatsApp Business, etc.) permettent-ils à un client de vous contacter facilement ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Uniquement un numéro de téléphone affiché quelque part",
+              "score": 0,
+              "id": "DIG-2-o0"
+            },
+            {
+              "text": "Un email ou formulaire disponible, mais peu utilisés",
+              "score": 1,
+              "id": "DIG-2-o1"
+            },
+            {
+              "text": "Plusieurs canaux (email, formulaire, réseaux) sont actifs",
+              "score": 2,
+              "id": "DIG-2-o2"
+            },
+            {
+              "text": "Canaux multiples intégrés, avec suivi et réponse rapide",
+              "score": 3,
+              "id": "DIG-2-o3"
+            }
+          ],
+          "originalId": "DIG-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "DIG-3",
+          "hint": "Les faux comptes et usurpations d'identité sont en forte hausse. Cela peut nuire à votre réputation sans que vous le sachiez.",
+          "text": "Sur vos canaux en ligne, faites-vous attention aux risques de fraude ou d’usurpation (faux comptes, faux numéros, etc.) ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Non, nous n’y avons jamais vraiment pensé",
+              "score": 0,
+              "id": "DIG-3-o0"
+            },
+            {
+              "text": "Un peu, au cas par cas",
+              "score": 1,
+              "id": "DIG-3-o1"
+            },
+            {
+              "text": "Nous surveillons de temps en temps",
+              "score": 2,
+              "id": "DIG-3-o2"
+            },
+            {
+              "text": "Nous surveillons activement et sensibilisons nos clients",
+              "score": 3,
+              "id": "DIG-3-o3"
+            }
+          ],
+          "originalId": "DIG-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "Compétences",
+      "desc": "La technologie ne sert à rien sans les bonnes personnes pour la gérer. Cette section évalue les compétences IT de vos équipes et votre capacité à faire face aux incidents.",
+      "pdfName": "Competences",
+      "icon": "",
+      "questions": [
+        {
+          "id": "SKL-1",
+          "hint": "Le niveau informatique de vos équipes détermine leur capacité à détecter et éviter les risques au quotidien.",
+          "text": "Quel est, selon vous, le niveau général en informatique de vos employés (bureautique, Internet, outils métiers) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Très faible, beaucoup de difficultés au quotidien",
+              "score": 0,
+              "id": "SKL-1-o0"
+            },
+            {
+              "text": "Basique, suffisant pour les tâches simples",
+              "score": 1,
+              "id": "SKL-1-o1"
+            },
+            {
+              "text": "Correct, la plupart sont autonomes",
+              "score": 2,
+              "id": "SKL-1-o2"
+            },
+            {
+              "text": "Bon niveau, certains sont référents",
+              "score": 3,
+              "id": "SKL-1-o3"
+            }
+          ],
+          "originalId": "SKL-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "SKL-2",
+          "hint": "90% des cyberattaques réussies exploitent une erreur humaine. La sensibilisation est votre première ligne de défense.",
+          "text": "Avez-vous déjà organisé des formations ou sensibilisations sur les risques cyber (phishing, mots de passe, bonnes pratiques) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Jamais",
+              "score": 0,
+              "id": "SKL-2-o0"
+            },
+            {
+              "text": "Une fois, il y a longtemps",
+              "score": 1,
+              "id": "SKL-2-o1"
+            },
+            {
+              "text": "Occasionnellement",
+              "score": 2,
+              "id": "SKL-2-o2"
+            },
+            {
+              "text": "Régulièrement, avec supports et suivi",
+              "score": 3,
+              "id": "SKL-2-o3"
+            }
+          ],
+          "originalId": "SKL-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "SKL-2.1",
+          "hint": "Quelques minutes de sensibilisation par mois peuvent suffire à éviter des incidents coûteux.",
+          "text": "Seriez-vous prêt à intégrer une courte session de sensibilisation cyber dans vos réunions d’équipe ou formations internes ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Non",
+              "score": 0,
+              "id": "SKL-2.1-o0"
+            },
+            {
+              "text": "Peut-être, si c’est très simple",
+              "score": 1,
+              "id": "SKL-2.1-o1"
+            },
+            {
+              "text": "Oui, à condition d’avoir un support prêt à l’emploi",
+              "score": 2,
+              "id": "SKL-2.1-o2"
+            },
+            {
+              "text": "Oui, c’est même une priorité",
+              "score": 3,
+              "id": "SKL-2.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "SKL-2",
+            "optionIds": [
+              "SKL-2-o0",
+              "SKL-2-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à SKL-2."
+          },
+          "originalId": "SKL-2.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "SKL-2",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "SKL-3",
+          "hint": "Sans référent identifié, les problèmes informatiques s'accumulent et les incidents ne sont jamais vraiment résolus.",
+          "text": "Y a-t-il une personne identifiée comme “référent informatique” ou “référent cybersécurité” dans votre structure ?",
+          "dic": "Disponibilité",
+          "options": [
+            {
+              "text": "Non, personne",
+              "score": 0,
+              "id": "SKL-3-o0"
+            },
+            {
+              "text": "Implicitement quelqu’un, mais sans rôle formalisé",
+              "score": 1,
+              "id": "SKL-3-o1"
+            },
+            {
+              "text": "Oui, une personne identifiée mais peu disponible",
+              "score": 2,
+              "id": "SKL-3-o2"
+            },
+            {
+              "text": "Oui, rôle clairement défini et reconnu",
+              "score": 3,
+              "id": "SKL-3-o3"
+            }
+          ],
+          "originalId": "SKL-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "SKL-4",
+          "hint": "Des procédures documentées permettent à n'importe qui de continuer le travail, même en l'absence du responsable habituel.",
+          "text": "Documentez-vous vos procédures IT de base (création de compte, départ d’un salarié, sauvegarde, etc.) ?",
+          "dic": "Intégrité",
+          "options": [
+            {
+              "text": "Non, tout est informel",
+              "score": 0,
+              "id": "SKL-4-o0"
+            },
+            {
+              "text": "Quelques notes dispersées",
+              "score": 1,
+              "id": "SKL-4-o1"
+            },
+            {
+              "text": "Certaines procédures importantes sont écrites",
+              "score": 2,
+              "id": "SKL-4-o2"
+            },
+            {
+              "text": "Procédures clés documentées et connues",
+              "score": 3,
+              "id": "SKL-4-o3"
+            }
+          ],
+          "originalId": "SKL-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "commercial",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "name": "Identités & Accès",
+      "desc": "Qui peut accéder à quoi dans votre organisation ? Des accès mal gérés sont l'une des principales portes d'entrée des pirates. Cette section évalue votre gestion des mots de passe et des droits.",
+      "pdfName": "Identites",
+      "icon": "",
+      "questions": [
+        {
+          "id": "ID-1",
+          "hint": "Des comptes partagés rendent impossible de savoir qui a fait quoi — et compliquent toute enquête en cas d'incident.",
+          "text": "Comment gérez-vous aujourd’hui les comptes utilisateurs (identifiants et mots de passe) pour vos employés ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Comptes partagés (mêmes identifiants pour plusieurs personnes)",
+              "score": 0,
+              "id": "ID-1-o0"
+            },
+            {
+              "text": "Comptes individuels, mais sans règle claire de création/suppression",
+              "score": 1,
+              "id": "ID-1-o1"
+            },
+            {
+              "text": "Comptes individuels gérés avec une procédure simple",
+              "score": 2,
+              "id": "ID-1-o2"
+            },
+            {
+              "text": "Comptes gérés de manière centralisée avec procédure formalisée",
+              "score": 3,
+              "id": "ID-1-o3"
+            }
+          ],
+          "originalId": "ID-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "ID-1.1",
+          "hint": "Si on ne peut pas tracer les actions, on ne peut pas non plus identifier la source d'un problème ou d'une faute.",
+          "text": "Avez-vous rencontré des situations où il était difficile de savoir qui avait fait quoi (modification, suppression, envoi, etc.) ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Oui, souvent",
+              "score": 0,
+              "id": "ID-1.1-o0"
+            },
+            {
+              "text": "Oui, parfois",
+              "score": 1,
+              "id": "ID-1.1-o1"
+            },
+            {
+              "text": "Rarement",
+              "score": 2,
+              "id": "ID-1.1-o2"
+            },
+            {
+              "text": "Non, jamais",
+              "score": 3,
+              "id": "ID-1.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "ID-1",
+            "optionIds": [
+              "ID-1-o0",
+              "ID-1-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à ID-1."
+          },
+          "originalId": "ID-1.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "ID-1",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "ID-2",
+          "hint": "Un ancien employé dont le compte reste actif peut accéder à vos systèmes, même malgré lui ou malicieusement.",
+          "text": "Quand un collaborateur quitte l’entreprise, que se passe-t-il pour ses accès IT ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Rien de systématique, ses accès restent souvent actifs",
+              "score": 0,
+              "id": "ID-2-o0"
+            },
+            {
+              "text": "On pense parfois à désactiver, mais sans checklist",
+              "score": 1,
+              "id": "ID-2-o1"
+            },
+            {
+              "text": "Désactivation généralement faite, quelques oublis possibles",
+              "score": 2,
+              "id": "ID-2-o2"
+            },
+            {
+              "text": "Processus systématique et documenté de retrait d’accès",
+              "score": 3,
+              "id": "ID-2-o3"
+            }
+          ],
+          "originalId": "ID-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "ID-3",
+          "hint": "La double authentification (comme un code SMS en plus du mot de passe) bloque la grande majorité des tentatives de piratage de comptes.",
+          "text": "Avez-vous mis en place une authentification à deux facteurs (MFA) pour vos comptes les plus sensibles (emails, outils cloud, finances, etc.) ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Non, et nous ne savons pas vraiment ce que c’est",
+              "score": 0,
+              "id": "ID-3-o0"
+            },
+            {
+              "text": "Non, mais nous connaissons le principe",
+              "score": 1,
+              "id": "ID-3-o1"
+            },
+            {
+              "text": "Oui, pour une partie des comptes",
+              "score": 2,
+              "id": "ID-3-o2"
+            },
+            {
+              "text": "Oui, pour tous les comptes sensibles",
+              "score": 3,
+              "id": "ID-3-o3"
+            }
+          ],
+          "originalId": "ID-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "ID-3.1",
+          "hint": "Activer la double authentification est souvent gratuit et ne prend que quelques minutes. C'est l'une des protections les plus efficaces.",
+          "text": "Seriez-vous prêt à activer la double authentification au moins pour les comptes les plus sensibles ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Non",
+              "score": 0,
+              "id": "ID-3.1-o0"
+            },
+            {
+              "text": "Peut-être, si c’est simple",
+              "score": 1,
+              "id": "ID-3.1-o1"
+            },
+            {
+              "text": "Oui, à condition d’être accompagné",
+              "score": 2,
+              "id": "ID-3.1-o2"
+            },
+            {
+              "text": "Oui, nous prévoyons de le faire très prochainement",
+              "score": 3,
+              "id": "ID-3.1-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "ID-3",
+            "optionIds": [
+              "ID-3-o0",
+              "ID-3-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à ID-3."
+          },
+          "originalId": "ID-3.1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "ID-3",
+            "maxScore": 1
+          }
+        },
+        {
+          "id": "ID-4",
+          "hint": "Si tout le monde a accès à tout, une seule erreur ou compromission peut impacter l'ensemble de vos données.",
+          "text": "Les droits d’accès aux dossiers et applications sont-ils accordés selon le principe du “moindre privilège” (juste ce qu’il faut) ?",
+          "dic": "Confidentialité",
+          "options": [
+            {
+              "text": "Non, tout le monde a accès à presque tout",
+              "score": 0,
+              "id": "ID-4-o0"
+            },
+            {
+              "text": "On limite un peu, mais de manière informelle",
+              "score": 1,
+              "id": "ID-4-o1"
+            },
+            {
+              "text": "Droits gérés par service ou équipe",
+              "score": 2,
+              "id": "ID-4-o2"
+            },
+            {
+              "text": "Droits finement gérés selon les rôles, revus régulièrement",
+              "score": 3,
+              "id": "ID-4-o3"
+            }
+          ],
+          "originalId": "ID-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "Énergie & Alimentation",
+      "desc": "Les coupures électriques sont l'un des premiers risques IT en Afrique de l'Ouest. Cette section évalue votre autonomie et votre stratégie de protection face aux pannes et variations de tension.",
+      "pdfName": "Energie",
+      "icon": "⚡",
+      "questions": [
+        {
+          "id": "ENE-1",
+          "dic": "Disponibilité",
+          "hint": "Connaître la fréquence des coupures permet d'adapter la solution (UPS seul ou UPS + groupe).",
+          "text": "À quelle fréquence subissez-vous des coupures ou micro-coupures électriques qui affectent votre activité ?",
+          "options": [
+            {
+              "text": "Plusieurs fois par semaine, avec des arrêts prolongés",
+              "score": 0,
+              "id": "ENE-1-o0"
+            },
+            {
+              "text": "Quelques fois par mois, avec impact sur notre activité",
+              "score": 1,
+              "id": "ENE-1-o1"
+            },
+            {
+              "text": "Rarement, tension généralement stable",
+              "score": 2,
+              "id": "ENE-1-o2"
+            },
+            {
+              "text": "Très rare, infrastructure électrique fiable",
+              "score": 3,
+              "id": "ENE-1-o3"
+            }
+          ],
+          "originalId": "ENE-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only"
+        },
+        {
+          "id": "ENE-2",
+          "dic": "Disponibilité",
+          "hint": "La protection doit couvrir tous les équipements critiques : serveur, switch, NAS, accès Internet.",
+          "text": "Quels équipements sont actuellement protégés par un onduleur (UPS) ou groupe électrogène ?",
+          "options": [
+            {
+              "text": "Aucun équipement protégé",
+              "score": 0,
+              "id": "ENE-2-o0"
+            },
+            {
+              "text": "Seulement quelques postes utilisateurs",
+              "score": 1,
+              "id": "ENE-2-o1"
+            },
+            {
+              "text": "Serveur et équipements réseau critiques couverts",
+              "score": 2,
+              "id": "ENE-2-o2"
+            },
+            {
+              "text": "Tous les équipements critiques couverts + supervision UPS",
+              "score": 3,
+              "id": "ENE-2-o3"
+            }
+          ],
+          "originalId": "ENE-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "ENE-3",
+          "dic": "Disponibilité",
+          "hint": "L'autonomie cible dépend de la durée habituelle des coupures dans votre zone.",
+          "text": "Quelle est votre autonomie électrique actuelle sur vos équipements IT critiques en cas de coupure ?",
+          "options": [
+            {
+              "text": "Aucune autonomie (tout s'éteint immédiatement)",
+              "score": 0,
+              "id": "ENE-3-o0"
+            },
+            {
+              "text": "Moins de 15 minutes (UPS basique)",
+              "score": 1,
+              "id": "ENE-3-o1"
+            },
+            {
+              "text": "15 à 60 minutes (UPS dimensionné)",
+              "score": 2,
+              "id": "ENE-3-o2"
+            },
+            {
+              "text": "Plus d'1 heure (UPS + groupe ou solaire)",
+              "score": 3,
+              "id": "ENE-3-o3"
+            }
+          ],
+          "originalId": "ENE-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "ENE-4",
+          "dic": "Disponibilité",
+          "hint": "Groupe électrogène, solaire, batteries lithium, hybride… plusieurs solutions permettent d'assurer la continuité électrique de votre IT.",
+          "text": "Avez-vous mis en place une solution d'alimentation de secours autonome pour votre IT (groupe électrogène, solaire, batteries) ?",
+          "options": [
+            {
+              "text": "Non, aucune solution de secours autonome envisagée",
+              "score": 0,
+              "id": "ENE-4-o0"
+            },
+            {
+              "text": "Envisagé (groupe, solaire ou batteries) mais pas encore déployé",
+              "score": 1,
+              "id": "ENE-4-o1"
+            },
+            {
+              "text": "Solution partielle en place (groupe, solaire ou batteries sur 1-2 équipements)",
+              "score": 2,
+              "id": "ENE-4-o2"
+            },
+            {
+              "text": "Solution autonome opérationnelle couvrant tous les équipements IT critiques",
+              "score": 3,
+              "id": "ENE-4-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "ENE-1",
+            "optionIds": [
+              "ENE-1-o0",
+              "ENE-1-o1"
+            ],
+            "reason": "Approfondissement selon la réponse à ENE-1."
+          },
+          "originalId": "ENE-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "ENE-1",
+            "maxScore": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "name": "Connectivité Internet",
+      "desc": "Internet est devenu une infrastructure critique pour la messagerie, le cloud et la VoIP. Cette section évalue la qualité, la stabilité et la redondance de votre connexion.",
+      "pdfName": "Connectivite",
+      "icon": "🌐",
+      "questions": [
+        {
+          "id": "CNX-1",
+          "dic": "Disponibilité",
+          "hint": "Le type de connexion détermine la fiabilité et la bande passante disponible.",
+          "text": "Quel est votre type de connexion Internet principal et sa qualité perçue ?",
+          "options": [
+            {
+              "text": "Connexion mobile partagée (4G téléphone) ou très lente",
+              "score": 0,
+              "id": "CNX-1-o0"
+            },
+            {
+              "text": "ADSL ou 4G dédiée, avec coupures fréquentes",
+              "score": 1,
+              "id": "CNX-1-o1"
+            },
+            {
+              "text": "Fibre ou 4G entreprise, généralement stable",
+              "score": 2,
+              "id": "CNX-1-o2"
+            },
+            {
+              "text": "Fibre dédiée ou VSAT/Starlink, SLA garanti",
+              "score": 3,
+              "id": "CNX-1-o3"
+            }
+          ],
+          "originalId": "CNX-1",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "declarative_only"
+        },
+        {
+          "id": "CNX-2",
+          "dic": "Disponibilité",
+          "hint": "Les coupures Internet peuvent bloquer toute activité cloud, messagerie et visioconférence.",
+          "text": "À quelle fréquence subissez-vous des coupures ou lenteurs Internet significatives ?",
+          "options": [
+            {
+              "text": "Plusieurs fois par semaine, très perturbant",
+              "score": 0,
+              "id": "CNX-2-o0"
+            },
+            {
+              "text": "Quelques fois par mois avec impact",
+              "score": 1,
+              "id": "CNX-2-o1"
+            },
+            {
+              "text": "Occasionnellement, impact limité",
+              "score": 2,
+              "id": "CNX-2-o2"
+            },
+            {
+              "text": "Stable, coupures rares et courtes",
+              "score": 3,
+              "id": "CNX-2-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "CNX-1",
+            "optionIds": [
+              "CNX-1-o0",
+              "CNX-1-o1",
+              "CNX-1-o2",
+              "CNX-1-o3"
+            ],
+            "reason": "Approfondissement selon la réponse à CNX-1."
+          },
+          "originalId": "CNX-2",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "CNX-1",
+            "maxScore": 2
+          }
+        },
+        {
+          "id": "CNX-3",
+          "dic": "Disponibilité",
+          "hint": "Plus vous dépendez du cloud, plus une coupure Internet est critique.",
+          "text": "Quelle est votre dépendance à Internet pour votre activité quotidienne ?",
+          "options": [
+            {
+              "text": "Faible — la plupart des outils fonctionnent sans Internet",
+              "score": 3,
+              "id": "CNX-3-o0"
+            },
+            {
+              "text": "Modérée — impact mais activité partielle possible",
+              "score": 2,
+              "id": "CNX-3-o1"
+            },
+            {
+              "text": "Forte — messagerie et outils cloud critiques",
+              "score": 1,
+              "id": "CNX-3-o2"
+            },
+            {
+              "text": "Totale — VoIP, ERP cloud, sans Internet = arrêt complet",
+              "score": 0,
+              "id": "CNX-3-o3"
+            }
+          ],
+          "originalId": "CNX-3",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only"
+        },
+        {
+          "id": "CNX-4",
+          "dic": "Disponibilité",
+          "hint": "Un routeur dual-WAN avec failover automatique coûte moins de 50 000 FCFA.",
+          "text": "Avez-vous une connexion Internet de secours en cas de panne de votre lien principal ?",
+          "options": [
+            {
+              "text": "Non, un seul lien Internet",
+              "score": 0,
+              "id": "CNX-4-o0"
+            },
+            {
+              "text": "Partage 4G téléphone en backup manuel",
+              "score": 1,
+              "id": "CNX-4-o1"
+            },
+            {
+              "text": "2ème connexion disponible, bascule manuelle",
+              "score": 2,
+              "id": "CNX-4-o2"
+            },
+            {
+              "text": "Dual-WAN avec failover automatique (routeur dédié)",
+              "score": 3,
+              "id": "CNX-4-o3"
+            }
+          ],
+          "condition": {
+            "dependsOn": "CNX-3",
+            "optionIds": [
+              "CNX-3-o2",
+              "CNX-3-o3"
+            ],
+            "reason": "Approfondissement selon la réponse à CNX-3."
+          },
+          "originalId": "CNX-4",
+          "audience": "commercial-client-presales-technical",
+          "assigneeRole": "technical",
+          "scorePolicy": "context_only",
+          "originalCondition": {
+            "dependsOn": "CNX-3",
+            "maxScore": 1
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -6,8 +6,9 @@ Application interne autonome, préparée pour Guy à partir des besoins discuté
 
 - Portefeuille avec recherche, taille du compte, criticité, besoin métier, infrastructure et source.
 - Budget déclaré, période et source. Étape commerciale, prochaine action et échéance.
-- Quatre rôles : commercial, avant-vente, direction et administration. Les commerciaux ne voient que leurs dossiers. L’avant-vente voit ses dossiers propres ou ceux qui lui sont affectés. La direction et l’administration disposent d’une vue globale.
-- Onze questions originales organisées selon les fonctions du NIST CSF 2.0. État de mise en place et niveau de preuve séparés. Justification des non-applicables, preuve et date pour une vérification.
+- Cinq rôles internes : commercial, avant-vente, technique, direction et administration. La technique accède aux dossiers qui lui sont affectés. Les commerciaux ne voient que leurs dossiers. L’avant-vente voit ses dossiers propres ou ceux qui lui sont affectés. La direction et l’administration disposent d’une vue globale.
+- Diagnostic adaptatif réintégrant les 53 questions et 11 domaines des archives, avec 16 conditions recalculées côté serveur et navigateur, preuves et historique. Aucun score global. La grille courte précédente reste accessible pour ses anciennes observations.
+- Invitations client limitées aux questions choisies, expirables et révocables, sans envoi automatique. Pas de budget ni de preuve interne dans la vue client.
 - Références NIST, CIS IG1 et ISO/IEC 27001. Aucun score de conformité ni certification automatique. Les onze questions ne couvrent pas tout CIS IG1 ou ISO27001.
 - Registre de renouvellements. Horizons internes J-90/60/30/15 à l’ouverture de l’application, seulement si date et source sont vérifiées. Pas de mails automatiques. Une date dépassée ne prouve pas une interruption.
 - Cinq familles de solutions avec questions, limites, licences, leçon, exercice et auto-explication. Marquer une fiche comme relue reste un indicateur local au navigateur, pas une certification.
@@ -76,3 +77,7 @@ Les tests d’exploitation vérifient aussi le chiffrement, une restauration fid
 - Pilote proposé :2–3commerciaux,1référent avant-vente, données fictives puis périmètre réel validé. Mesurer dossiers complets, délai de prise en charge, reprises d’information, renouvellements prouvés et coût IA par tentative.
 
 Cette version est une base de pilote à examiner et tester, pas une mise en production approuvée. Les conditions de propriété et d’usage entre Guy et SANCFIS restent à formaliser. Aucune licence open source n’est attribuée arbitrairement au projet.
+
+## Reprise du 29 octobre 2026
+
+Voir [le lot questionnaire et collaboration](docs/REPRISE-20261029.md) pour les règles, les limites des invitations, les fonctions portées et les travaux restant au prompt maître. La présence des 53 questions ne constitue pas une migration complète des assistants, finances et rapports avancés.

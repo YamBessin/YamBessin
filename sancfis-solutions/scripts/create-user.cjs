@@ -9,7 +9,7 @@ async function main(){
   const rl=readline.createInterface({input:process.stdin,output:process.stdout});
   const name=(await rl.question('Nom professionnel : ')).trim();
   const email=(await rl.question('Adresse professionnelle : ')).trim().toLowerCase();
-  const role=(await rl.question('Rôle (commercial, presales, direction, admin) : ')).trim();
+  const role=(await rl.question('Rôle (commercial, presales, technical, direction, admin) : ')).trim();
   rl.close();
   process.stdout.write('Mot de passe (16 caractères minimum, saisie masquée) : ');
   const password=await new Promise((resolve,reject)=>{
