@@ -1,6 +1,6 @@
 'use strict';
 const root=document.getElementById('app');
-const state={user:null,cases:[],team:[],catalog:null,view:'portfolio',filter:'',segment:'',current:null,dirty:false,demo:false,aiEnabled:false};
+const state={user:null,cases:[],team:[],catalog:null,view:'statistics',filter:'',segment:'',current:null,dirty:false,demo:false,aiEnabled:false};
 const stages=['Qualification','À étudier','Étude en cours','Proposition','Gagné','Perdu'];
 const statusLabels={unknown:'Inconnu',absent:'Absent',partial:'Partiel',implemented:'Mis en place',na:'Non applicable'};
 const assuranceLabels={declared:'Déclaré',verified:'Vérifié'};
@@ -28,12 +28,12 @@ function navigate(view){if(state.dirty&&!confirm('Quitter les modifications non 
 function render(){
   clear(root);const sidebar=el('aside',{class:'sidebar'},el('div',{class:'brand'},'SANCFIS'),el('p',{},'Solutions · PME'),el('div',{class:'identity'},el('strong',{},state.user.name),el('p',{class:'small'},roleLabel(state.user.role))));
   const nav=el('nav',{'aria-label':'Navigation principale'});
-  for(const[id,label]of [['portfolio','Portefeuille'],['renewals','Renouvellements'],['solutions','Solutions et formation'],['standards','Méthode et référentiels'],['watch','Veille utile']]){const b=button(label,()=>navigate(id));if(state.view===id)b.className='active';nav.append(b);}
+  for(const[id,label]of [['statistics','Analyse et statistiques'],['portfolio','Portefeuille'],['renewals','Renouvellements'],['solutions','Solutions et formation'],['standards','Méthode et référentiels'],['watch','Veille utile']]){const b=button(label,()=>navigate(id));if(state.view===id)b.className='active';nav.append(b);}
   sidebar.append(nav,el('span',{class:'tag'},'Pilote V1'),button('Déconnexion',async()=>{try{await api('/logout',{method:'POST',body:{}});state.user=null;state.cases=[];state.current=null;renderLogin();}catch(e){alert(e.message);}}));
   const content=el('main',{class:'content',id:'main-content'});root.append(el('div',{class:'shell'},sidebar,content));
   if(state.demo)content.append(message('Démonstration locale : utiliser uniquement des sociétés et informations fictives.','banner warning'));
   if(state.current){renderEditor(content);return;}
-  ({portfolio:renderPortfolio,renewals:renderRenewals,solutions:renderSolutions,standards:renderStandards,watch:renderWatch}[state.view]||renderPortfolio)(content);
+  ({statistics:renderStatistics,portfolio:renderPortfolio,renewals:renderRenewals,solutions:renderSolutions,standards:renderStandards,watch:renderWatch}[state.view]||renderPortfolio)(content);
 }
 function header(target,title,description,actions=[]){target.append(el('div',{class:'bar'},el('div',{},el('h1',{},title),el('p',{class:'small intro'},description)),el('div',{class:'actions'},actions)));}
 function emptyCase(){return {company:'',sector:'',segment:'Petite',criticality:'Standard',sites:'',usersCount:'',businessNeed:'',infrastructure:'',infrastructureSource:'',budget:{amount:'',currency:'XOF',period:'',source:'',status:'unknown'},stage:'Qualification',nextAction:'',dueDate:'',assignedId:'',assessment:{},renewals:[],documentStatus:'draft'};}
@@ -64,7 +64,7 @@ function renderEditor(target){
   const legacy=el('details',{},el('summary',{},'Ancienne grille courte du pilote — historique conservé'));renderAssessment(legacy,c);target.append(legacy);renderRenewalEditor(target,c);renderInvitations(target,c);
   if(['admin','direction'].includes(state.user.role))target.append(field('Référent technique',c.technicalId||'',v=>c.technicalId=v,{options:[['','Non affecté'],...state.team.filter(u=>u.role==='technical').map(u=>[u.id,u.name])]}));
   const validation=field('Statut du document',c.documentStatus,v=>c.documentStatus=v,{options:[['draft','Brouillon'],['reviewed','Relu'],...(canVerify()?[['validated','Validé techniquement']]:[])]});
-  target.append(el('section',{class:'panel'},el('h2',{},'Restitution'),validation,el('p',{class:'small'},'Un questionnaire déclaratif ne certifie ni conformité ISO ni absence de vulnérabilités. Une modification par un commercial remet un document validé en brouillon.'),el('div',{class:'actions'},button('Prévisualiser la synthèse',()=>summaryDialog(c)),button('Brouillon IA',()=>requestAi(c)))));
+  target.append(el('section',{class:'panel'},el('h2',{},'Restitution'),validation,el('p',{class:'small'},'Un questionnaire déclaratif ne certifie ni conformité ISO ni absence de vulnérabilités. Une modification par un commercial remet un document validé en brouillon.'),el('div',{class:'actions'},button('Prévisualiser la synthèse',()=>summaryDialog(c)),button('Analyser le diagnostic',()=>{if(!c.id||state.dirty){alert('Sauvegardez le dossier pour analyser ses réponses.');return;}state.statsFilter={caseId:c.id,segment:''};navigate('statistics');}),button('Brouillon IA',()=>requestAi(c)))));
 }
 function renderAssessment(target,c){
   const section=el('section',{class:'panel'},el('h2',{},'Diagnostic guidé et preuves'),el('p',{class:'small'},'Grille courte de la première adaptation, conservée pour les anciens dossiers. Rapprochements thématiques, sans couverture complète CIS/ISO. « Inconnu » ne vaut pas « absent ».'));

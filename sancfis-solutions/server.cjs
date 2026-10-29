@@ -7,6 +7,7 @@ const {frameworks,controls,solutions}=require('./catalog.cjs');
 const questionnaire=require('./questionnaire.json');
 const rules=require('./public/questionnaire.js');
 const questions=rules.validate(questionnaire.domains);
+const {buildStatistics}=require('./public/statistics-data.js');
 const ROLES=['commercial','presales','technical','direction','admin'];
 const STAGES=['Qualification','À étudier','Étude en cours','Proposition','Gagné','Perdu'];
 function passwordHash(password,salt=crypto.randomBytes(16).toString('hex')) {
@@ -157,7 +158,7 @@ function createApp(options={}) {
       if(req.method==='GET'&&url.pathname==='/healthz'){send(res,200,{status:'ok'});return;}
       if(!url.pathname.startsWith('/api/')){
         if(req.method!=='GET')fail(405,'Méthode refusée.');
-        const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/questionnaire.js':'questionnaire.js','/diagnostic.js':'diagnostic.js'};const name=files[url.pathname];if(!name)fail(404,'Page introuvable.');
+        const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/questionnaire.js':'questionnaire.js','/diagnostic.js':'diagnostic.js','/statistics-data.js':'statistics-data.js','/statistics-ui.js':'statistics-ui.js'};const name=files[url.pathname];if(!name)fail(404,'Page introuvable.');
         res.writeHead(200,{'Content-Type':mime[path.extname(name)]});res.end(fs.readFileSync(path.join(__dirname,'public',name)));return;
       }
       if(!['GET','POST','PUT'].includes(req.method))fail(405,'Méthode refusée.');
@@ -208,6 +209,7 @@ function createApp(options={}) {
       if(req.method==='GET'&&url.pathname==='/api/me'){send(res,200,{user:cleanUser(user),demo:!!options.demo,aiEnabled:options.aiEnabled??process.env.AI_ENABLED==='true'});return;}
       if(req.method==='GET'&&url.pathname==='/api/catalog'){send(res,200,{frameworks,controls,solutions,questionnaire,reviewedAt:'2026-10-29',notice:'53 questions historiques, 11 domaines. Diagnostic déclaratif, sans certification automatique.'});return;}
       if(req.method==='GET'&&url.pathname==='/api/team'){send(res,200,{users:users.map(cleanUser)});return;}
+      if(req.method==='GET'&&url.pathname==='/api/statistics'){send(res,200,buildStatistics(questionnaire.domains,db.cases.filter(c=>visible(user,c)),new Date().toISOString(),rules.evaluate));return;}
       if(req.method==='GET'&&url.pathname==='/api/cases'){send(res,200,{cases:db.cases.filter(c=>visible(user,c))});return;}
       const inviteRoute=/^\/api\/cases\/([0-9a-f-]{36})\/invitations(?:\/([0-9a-f-]{36})\/revoke)?$/.exec(url.pathname);
       if(inviteRoute){

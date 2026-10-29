@@ -8,6 +8,7 @@ Application interne autonome, préparée pour Guy à partir des besoins discuté
 - Budget déclaré, période et source. Étape commerciale, prochaine action et échéance.
 - Cinq rôles internes : commercial, avant-vente, technique, direction et administration. La technique accède aux dossiers qui lui sont affectés. Les commerciaux ne voient que leurs dossiers. L’avant-vente voit ses dossiers propres ou ceux qui lui sont affectés. La direction et l’administration disposent d’une vue globale.
 - Diagnostic adaptatif réintégrant les 53 questions et 11 domaines des archives, avec 16 conditions recalculées côté serveur et navigateur, preuves et historique. Aucun score global. La grille courte précédente reste accessible pour ses anciennes observations.
+- Accueil « Analyse et statistiques » : radar des 11 domaines, axes DIC indicatifs, complétude, niveau de preuve, affaires, validation et renouvellements. Filtres par dossier/taille, CSV et impression/PDF. Voir [la méthode et les limites](docs/STATISTIQUES.md).
 - Invitations client limitées aux questions choisies, expirables et révocables, sans envoi automatique. Pas de budget ni de preuve interne dans la vue client.
 - Références NIST, CIS IG1 et ISO/IEC 27001. Aucun score de conformité ni certification automatique. Les onze questions ne couvrent pas tout CIS IG1 ou ISO27001.
 - Registre de renouvellements. Horizons internes J-90/60/30/15 à l’ouverture de l’application, seulement si date et source sont vérifiées. Pas de mails automatiques. Une date dépassée ne prouve pas une interruption.

@@ -23,6 +23,8 @@ function renderDiagnostic(target,c){
 }
 function appendDiagnosticSummary(out,c){
   if(!c.diagnostic)return;
+  const chartData=SancfisStatistics.buildStatistics(state.catalog.questionnaire.domains,[c],new Date().toISOString(),SancfisQuestionnaire.evaluate);
+  out.append(el('h2',{},'Profil indicatif du questionnaire'),radar(chartData.domains),domainCoverageTable(chartData));
   const domains=state.catalog.questionnaire.domains,answers=c.diagnostic.answers,active=new Set(SancfisQuestionnaire.evaluate(domains,answers).activeIds),coverage=SancfisQuestionnaire.coverage(domains,answers);
   out.append(el('h2',{},'Diagnostic adaptatif'),el('p',{},`${coverage.answered} réponses / ${coverage.active} questions actives ; ${coverage.unknown} inconnues ; ${coverage.pending} à confirmer. Aucun score global.`));
   for(const d of domains)for(const q of d.questions){const a=answers[q.id];if(!active.has(q.id)||!a||a.state==='unknown')continue;
